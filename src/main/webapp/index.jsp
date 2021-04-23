@@ -31,7 +31,7 @@
                                     <input type="submit" class="btnSubmit" value="Login" name="loginUser"/>
                                 </div>
                                 <div id="signup-control" class="login-controls">
-                                    <a href="views/signup.jsp">Sign up</a>
+                                    <a href="views/signUp.jsp">Sign up</a>
                                 </div>
                             </form>
                         </div>

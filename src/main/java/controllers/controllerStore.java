@@ -16,13 +16,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import daos.StoreDAO;
+import models.Store;
+import controllers.controllerStore;
 
 /**
  *
  * @author alexa
  */
 public class controllerStore extends HttpServlet{
-    private ProyectosDAO proyectosDAO;
+    private StoreDAO proyectosDAO;
     private String USERID;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -31,7 +34,7 @@ public class controllerStore extends HttpServlet{
         try {
             PrintWriter out = response.getWriter();
             
-            String url = "jdbc:mysql://localhost:3306/planeacionagil";
+            String url = "jdbc:mysql://localhost:3306/conveniencestore";
             String username = "root";
             String password = "";
             
@@ -48,7 +51,7 @@ public class controllerStore extends HttpServlet{
             String callTarjetasControllerRequest = request.getParameter("proyTarjetas");
             
             
-            proyectosDAO = new ProyectosDAO(url, username, password);
+            proyectosDAO = new StoreDAO(url, username, password);
             
             if (loginUserRequest != null)  login(request, response);
             
@@ -61,7 +64,7 @@ public class controllerStore extends HttpServlet{
             if (callHistoriasControllerRequest != null)  callHistoriasController(request, response);
             if (callTarjetasControllerRequest != null)  callTarjetasController(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(controller_proyectos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(controllerStore.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -89,7 +92,7 @@ public class controllerStore extends HttpServlet{
     
     private void getAllProjects(HttpServletRequest request, HttpServletResponse response) throws 
             SQLException, IOException , ServletException  {
-        List<Proyecto> listaProyectos;
+        List<Store> listaProyectos;
         RequestDispatcher dispatcher;
         
         listaProyectos = proyectosDAO.listarProyectos();
@@ -107,7 +110,7 @@ public class controllerStore extends HttpServlet{
     
     private void getProjects(HttpServletRequest request, HttpServletResponse response) throws 
             SQLException, IOException , ServletException  {
-        List<Proyecto> listaProyectos;
+        List<Store> listaProyectos;
         RequestDispatcher dispatcher;
         
         System.out.println("getProjectsData: " + USERID);

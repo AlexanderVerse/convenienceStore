@@ -21,7 +21,9 @@ body {
 }
 .login-form-1{
     padding: 5%;
+    background: #73C2FB;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    
 }
 .login-form-1 h3{
     text-align: center;
@@ -41,10 +43,10 @@ body {
 .login-form-1 .btnSubmit{
     font-weight: 600;
     color: #fff;
-    background-color: #0062cc;
+    background-color: #0F52BA;
 }
 .login-form-1 .ForgetPwd{
-    color: #0062cc;
+    color: #73C2FB;
     font-weight: 600;
     text-decoration: none;
 }
@@ -56,6 +58,6 @@ body {
     text-align: center;
 }
 #signup-control {
-    background-color: none;
+    background-color: #73C2FB;
     border: none;
 }

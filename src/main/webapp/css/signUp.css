@@ -20,7 +20,7 @@ body {
 }
 .signup-form-1{
     padding: 5%;
-    background: #0062cc;
+    background: #73C2FB;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
 }
 .signup-form-1 h3{
@@ -40,8 +40,8 @@ body {
 }
 .signup-form-1 .btnSubmit{
     font-weight: 600;
-    color: #0062cc;
-    background-color: #fff;
+    color: #fff;
+    background-color: #0F52BA;
 }
 .signup-form-1 .ForgetPwd{
     color: #fff;
