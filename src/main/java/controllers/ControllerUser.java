@@ -19,6 +19,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import daos.UsersDAO;
+import controllers.controllerStore;
+import models.User;
 
 
 public class ControllerUser extends HttpServlet
@@ -32,15 +35,18 @@ public class ControllerUser extends HttpServlet
             /* TODO output your page here. You may use following sample code. */
             String url = "jdbc:mysql://localhost:3306/conveniencestore";
             String db_username = "root";
-            String db_password = "";
-            
+            String db_password = "";    
             String loginUserRequest = request.getParameter("loginUser");
             String signupUserRequest = request.getParameter("signupUser");
             usersDAO = new UsersDAO(url, db_username, db_password);
-            if(signupUserRequest != null) adduser(request, response);
-            if(loginUserRequest != null) loginUserRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(controller_proyectos.class.getName()).log(Level.SEVERE, null, ex);
+            if(signupUserRequest != null) 
+                adduser(request, response);
+            if(loginUserRequest != null) 
+                loginUserRequest(request, response);
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(controllerStore.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -56,7 +62,7 @@ public class ControllerUser extends HttpServlet
         loginUser = usersDAO.getUser(username, password);
         System.out.println("Login user data: " + loginUser.getId() + ", " + loginUser.getUsername() + ", " + loginUser.getPassword());
         if (loginUser.getId() != null) {
-            dispatcher = request.getRequestDispatcher("controller_proyectos");
+            dispatcher = request.getRequestDispatcher("controllerStore");
             request.setAttribute("loginUser", "User logging...");
             request.setAttribute("userId", loginUser.getId());
             dispatcher.forward(request, response);
