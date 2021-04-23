@@ -5,24 +5,20 @@
  */
 package controllers;
 
-import daos.UsersDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.User;
 
 /**
  *
  * @author hapib
  */
-public class user extends HttpServlet {
+public class controller_orders extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,62 +30,44 @@ public class user extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
-    UsersDAO usersDAO;
+    private String IDVENDOR;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String url = "jdbc:mysql://localhost:3306/conveniencestore";
-            String db_username = "root";
-            String db_password = "";
+            String callOrdersControllerRequest;
             
-            usersDAO = new UsersDAO(url, db_username, db_password);
+            callOrdersControllerRequest = String.valueOf(request.getAttribute("callOrdersControllerRequest"));
             
-            String loginUserRequest = request.getParameter("loginUser");
-            String signupUserRequest = request.getParameter("signupUser");
-            
-            System.out.println("user controler!");
-            if(loginUserRequest != null) loginUserRequest(request, response);
-            if(signupUserRequest != null) adduser(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(user.class.getName()).log(Level.SEVERE, null, ex);
+            if(callOrdersControllerRequest != null) loginVendorOrders(request, response);
         }
-    }
-    
-    private void loginUserRequest(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        //User loginUser;
-        RequestDispatcher dispatcher;
-        User loginUser;
-        String username;
-        String password;
-        
-        username = request.getParameter("loginUsername");
-        password = request.getParameter("loginPassword");
-        
-        loginUser = usersDAO.getUser(username, password);
-        
-        System.out.println("Loging user..");
-        if(loginUser.getId().equals("1")) {
-            System.out.println("Login user admin found!");
-            dispatcher = request.getRequestDispatcher("views/adminCortecaja.jsp");
-            dispatcher.include(request, response);
-        } else {
-            System.out.println("Login user vendor found!");
-            dispatcher = request.getRequestDispatcher("controller_orders");
-            request.setAttribute("callOrdersControllerRequest", "Calling orders controller..");
-            request.setAttribute("idVendor", loginUser.getId());
-            dispatcher.forward(request, response);
-        }
-    }
-     private void adduser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        String username;
-        String password; 
-        
-        System.out.println("Signing user..");
     }
 
+    private void logHistoriesProject(HttpServletRequest request, HttpServletResponse response) throws 
+            SQLException, IOException , ServletException {
+        IDVENDOR = String.valueOf(request.getAttribute("projectId"));
+        
+        System.out.println("Logging histories project..");
+        System.out.println("PROJECTID: " + IDVENDOR);
+        newOrderRequest(request, response);
+    }
+    
+    private void newOrderRequest(HttpServletRequest request, HttpServletResponse response) throws 
+            SQLException, IOException , ServletException {
+        RequestDispatcher dispatcher;
+        
+        IDVENDOR = String.valueOf(request.getAttribute("projectId"));
+        
+        System.out.println("Logging histories project..");
+        System.out.println("IDVENDOR: " + IDVENDOR);
+        dispatcher = request.getRequestDispatcher("views/ordenes.jsp");
+        request.setAttribute("idVendor",IDVENDOR);
+        //request.setAttribute("userId", loginUser.getId());
+        dispatcher.forward(request, response);
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
