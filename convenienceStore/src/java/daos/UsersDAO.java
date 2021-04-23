@@ -29,7 +29,7 @@ public class UsersDAO {
         Statement statement;
         ResultSet resultSet;
         
-        sql = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'";
+        sql = "SELECT * FROM user WHERE username = '" + username + "' AND password = '" + password + "'";
         
         con.conectar();
         connection = con.getJdbcConnection();
@@ -39,7 +39,7 @@ public class UsersDAO {
         resultSet.next();
         if(resultSet.isFirst() && resultSet.isLast()) {
             System.out.println("User matched");
-            String login_id = resultSet.getString("idusers");
+            String login_id = resultSet.getString("idUser");
             String login_nombre = resultSet.getString("username");
             String login_password = resultSet.getString("password");
             loginUser = new User(login_id, login_nombre, login_password);
