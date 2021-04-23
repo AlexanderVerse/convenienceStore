@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.User;
 
 /**
  *
@@ -60,18 +61,26 @@ public class user extends HttpServlet {
     private void loginUserRequest(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         //User loginUser;
         RequestDispatcher dispatcher;
+        User loginUser;
         String username;
         String password;
         
         username = request.getParameter("loginUsername");
         password = request.getParameter("loginPassword");
         
-        if(username.equals("admin") && password.equals("admin")) {
-            dispatcher = request.getRequestDispatcher("views/adminCortecaja.jsp");
-            dispatcher.include(request, response);
-        }
+        loginUser = usersDAO.getUser(username, password);
         
         System.out.println("Loging user..");
+        if(loginUser.getId().equals("1")) {
+            System.out.println("Login user admin found!");
+            dispatcher = request.getRequestDispatcher("views/adminCortecaja.jsp");
+            dispatcher.include(request, response);
+        } else {
+            System.out.println("Login user vendor found!");
+            dispatcher = request.getRequestDispatcher("controller_vendedorDespacho");
+            request.setAttribute("idVendor", loginUser.getId());
+            dispatcher.forward(request, response);
+        }
     }
      private void adduser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String username;
