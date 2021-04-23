@@ -8,6 +8,10 @@
         <servlet-name>controller_orders</servlet-name>
         <servlet-class>controllers.controller_orders</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>adminCorte</servlet-name>
+        <servlet-class>controllers.adminCorte</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>user</servlet-name>
         <url-pattern>/user</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>controller_orders</servlet-name>
         <url-pattern>/controller_orders</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminCorte</servlet-name>
+        <url-pattern>/adminCorte</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

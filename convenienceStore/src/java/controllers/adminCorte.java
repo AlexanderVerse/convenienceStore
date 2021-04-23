@@ -5,10 +5,12 @@
  */
 package controllers;
 
-import daos.UsersDAO;
+import daos.AdminCortesDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -16,13 +18,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.User;
+import models.Sale;
+import models.SaleOrder;
 
 /**
  *
- * @author hapib
+ * @author coque
  */
-public class user extends HttpServlet {
+public class adminCorte extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,61 +36,45 @@ public class user extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    UsersDAO usersDAO;
-    
+    private AdminCortesDAO adminCortesDAO;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String url = "jdbc:mysql://localhost:3306/conveniencestore";
-            String db_username = "root";
-            String db_password = "";
+            String corteTotal, cortePersonal;
+            RequestDispatcher dispatcher;
+            corteTotal = request.getParameter("corteTotal");
+            cortePersonal = request.getParameter("cortePersonal");
             
-            usersDAO = new UsersDAO(url, db_username, db_password);
-            
-            String loginUserRequest = request.getParameter("loginUser");
-            String signupUserRequest = request.getParameter("signupUser");
-            
-            System.out.println("user controler!");
-            if(loginUserRequest != null) loginUserRequest(request, response);
-            if(signupUserRequest != null) adduser(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(user.class.getName()).log(Level.SEVERE, null, ex);
+            if(corteTotal == null && cortePersonal == null){
+                dispatcher = request.getRequestDispatcher("views/adminCortecaja.jsp");
+                dispatcher.forward(request, response);
+            }
+            if(corteTotal != null) corteTotal(request,response);
+            if(cortePersonal != null) cortePersonal(request,response);
         }
     }
-    
-    private void loginUserRequest(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        //User loginUser;
+    public void corteTotal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         RequestDispatcher dispatcher;
-        User loginUser;
-        String username;
-        String password;
+        List<Sale> sales = new ArrayList<Sale>();
+        List<SaleOrder> salesorders = new ArrayList<SaleOrder>();
+
+        dispatcher = request.getRequestDispatcher("views/corteTotal.jsp");
+        sales = adminCortesDAO.getSale(); //aqui llamo el resultado de la tabla sale 
+        salesorders = adminCortesDAO.getSaleOrder(); //aqui llamo el resultado de la tabla saleorder
         
-        username = request.getParameter("loginUsername");
-        password = request.getParameter("loginPassword");
+        request.setAttribute("sales", sales);
+        request.setAttribute("salesorders", salesorders);
         
-        loginUser = usersDAO.getUser(username, password);
-        
-        System.out.println("Loging user..");
-        if(loginUser.getId().equals("1")) {
-            System.out.println("Login user admin found!");
-            dispatcher = request.getRequestDispatcher("adminCorte");
-            dispatcher.include(request, response);
-        } else {
-            System.out.println("Login user vendor found!");
-            dispatcher = request.getRequestDispatcher("controller_orders");
-            request.setAttribute("callOrdersControllerRequest", "Calling orders controller..");
-            request.setAttribute("idVendor", loginUser.getId());
-            dispatcher.forward(request, response);
-        }
+        dispatcher.forward(request, response);
     }
-     private void adduser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        String username;
-        String password; 
-        
-        System.out.println("Signing user..");
+
+    public void cortePersonal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher;
+        dispatcher = request.getRequestDispatcher("views/cortePersonal.jsp");
+
+        dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -102,7 +89,11 @@ public class user extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(adminCorte.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -116,7 +107,11 @@ public class user extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(adminCorte.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
