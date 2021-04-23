@@ -9,12 +9,12 @@ package models;
  *
  * @author hapib
  */
-public class Pedido {
+public class Venta {
     String idSale;
     String idVendor;
     String saleTotal;
 
-    public Pedido(String idSale, String idVendor, String saleTotal) {
+    public Venta(String idSale, String idVendor, String saleTotal) {
         this.idSale = idSale;
         this.idVendor = idVendor;
         this.saleTotal = saleTotal;

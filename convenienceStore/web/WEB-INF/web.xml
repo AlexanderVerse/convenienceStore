@@ -10,7 +10,7 @@
     </servlet>
     <servlet>
         <servlet-name>controller_pedidos</servlet-name>
-        <servlet-class>controllers.controller_pedidos</servlet-class>
+        <servlet-class>controllers.controller_ventas</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>adminCorte</servlet-name>

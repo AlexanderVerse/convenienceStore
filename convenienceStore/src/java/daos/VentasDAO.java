@@ -12,24 +12,24 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import models.Pedido;
+import models.Venta;
 import models.Producto;
 
 /**
  *
  * @author hapib
  */
-public class PedidosDAO {
+public class VentasDAO {
     private Conexion con;
     private Connection connection;
     
-    public PedidosDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) throws SQLException {
+    public VentasDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) throws SQLException {
         System.out.println(jdbcURL);
         con = new Conexion(jdbcURL, jdbcUsername, jdbcPassword);
     }
     
-    public List<Pedido> getPedidos() throws SQLException {
-        List<Pedido> listaProductos;
+    public List<Venta> getVentas() throws SQLException {
+        List<Venta> listaProductos;
         String sql;
         Statement statement;
         ResultSet resultSet;
@@ -41,15 +41,15 @@ public class PedidosDAO {
         connection = con.getJdbcConnection();
         statement = connection.createStatement();
         resultSet = statement.executeQuery(sql);
-        System.out.println("Products query executed successfully!");
+        System.out.println("Ventas query executed successfully!");
         while (resultSet.next()) {
             String idSale = resultSet.getString("idSale");
             String idVendor = resultSet.getString("idVendor");
             String saleTotal = resultSet.getString("saleTotal");
-            Pedido itemPedido = new Pedido(idSale, idVendor, saleTotal);
+            Venta itemPedido = new Venta(idSale, idVendor, saleTotal);
             listaProductos.add(itemPedido);
         }
-        System.out.println("Returning products to controller");
+        System.out.println("Returning ventas to controller");
         con.desconectar();
         return listaProductos;
     }

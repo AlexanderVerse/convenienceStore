@@ -5,19 +5,27 @@
  */
 package controllers;
 
+import daos.VentasDAO;
 import daos.ProductosDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Producto;
+import models.Venta;
 
 /**
  *
  * @author hapib
  */
-public class controller_pedidos extends HttpServlet {
+public class controller_ventas extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,7 +37,8 @@ public class controller_pedidos extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
-    
+    VentasDAO ventasDAO;
+    private String IDVENDOR;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,11 +50,39 @@ public class controller_pedidos extends HttpServlet {
             String db_password = "";
             String callOrdersControllerRequest;
             
-            //productosDAO = new ProductosDAO(url, db_username, db_password);
-            callOrdersControllerRequest = String.valueOf(request.getAttribute("callOrdersControllerRequest"));
+            ventasDAO = new VentasDAO(url, db_username, db_password);
             
-            //if(callOrdersControllerRequest != null) loginVendorOrders(request, response);
+            callOrdersControllerRequest = String.valueOf(request.getAttribute("callPedidosControllerRequest"));
+            
+            if(callOrdersControllerRequest != null) loginVendorVentas(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(controller_ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void loginVendorVentas(HttpServletRequest request, HttpServletResponse response) throws 
+            SQLException, IOException , ServletException {
+        IDVENDOR = String.valueOf(request.getAttribute("idVendor"));
+        
+        System.out.println("Logging verdor orders..");
+        System.out.println("IDVENDOR: " + IDVENDOR);
+        getVendorSalesRequest(request, response);
+    }
+    
+    private void getVendorSalesRequest(HttpServletRequest request, HttpServletResponse response) throws 
+            SQLException, IOException , ServletException {
+        RequestDispatcher dispatcher;
+        List<Venta> listaVentas;
+ 
+        dispatcher = request.getRequestDispatcher("views/ventas.jsp");
+        
+        System.out.println("Getting sales..");
+        System.out.println("IDVENDOR: " + IDVENDOR);
+        listaVentas = ventasDAO.getVentas();
+        System.out.println("IDVENDOR: " + IDVENDOR);
+        request.setAttribute("idVendor",IDVENDOR);
+        request.setAttribute("listaVentas",listaVentas);
+        dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
