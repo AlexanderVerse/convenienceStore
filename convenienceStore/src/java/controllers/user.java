@@ -60,7 +60,11 @@ public class user extends HttpServlet {
         username = request.getParameter("loginUsername");
         password = request.getParameter("loginPassword");
         
-        //loginUser = usersDAO.getUser(username, password);
+        if(username.equals("admin") && password.equals("admin")) {
+            dispatcher = request.getRequestDispatcher("views/adminCortecaja.jsp");
+            dispatcher.include(request, response);
+        }
+        
         System.out.println("Loging user..");
     }
      private void adduser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
@@ -68,14 +72,6 @@ public class user extends HttpServlet {
         String password; 
         
         System.out.println("Signing user..");
-        /*
-        RequestDispatcher dispatcher;
-        username = request.getParameter("signupUsername");
-        password = request.getParameter("signupPassword");
-        //usersDAO.setUser(username, password);
-        dispatcher = request.getRequestDispatcher("index.jsp");
-        dispatcher.forward(request, response);
-        */
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
