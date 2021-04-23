@@ -8,6 +8,8 @@ package controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -42,15 +44,17 @@ public class controller_orders extends HttpServlet {
             callOrdersControllerRequest = String.valueOf(request.getAttribute("callOrdersControllerRequest"));
             
             if(callOrdersControllerRequest != null) loginVendorOrders(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(user.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void logHistoriesProject(HttpServletRequest request, HttpServletResponse response) throws 
+    private void loginVendorOrders(HttpServletRequest request, HttpServletResponse response) throws 
             SQLException, IOException , ServletException {
-        IDVENDOR = String.valueOf(request.getAttribute("projectId"));
+        IDVENDOR = String.valueOf(request.getAttribute("idVendor"));
         
-        System.out.println("Logging histories project..");
-        System.out.println("PROJECTID: " + IDVENDOR);
+        System.out.println("Logging verdor orders..");
+        System.out.println("IDVENDOR: " + IDVENDOR);
         newOrderRequest(request, response);
     }
     
