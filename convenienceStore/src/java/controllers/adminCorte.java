@@ -44,6 +44,11 @@ public class adminCorte extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String corteTotal, cortePersonal;
             RequestDispatcher dispatcher;
+            String url = "jdbc:mysql://localhost:3306/conveniencestore";
+            String db_username = "root";
+            String db_password = "";
+            
+            adminCortesDAO = new AdminCortesDAO(url, db_username, db_password);
             corteTotal = request.getParameter("corteTotal");
             cortePersonal = request.getParameter("cortePersonal");
             
