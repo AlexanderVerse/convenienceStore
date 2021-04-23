@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import daos.UsersDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -31,14 +32,19 @@ public class user extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    UsersDAO usersDAO;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String url = "jdbc:mysql://localhost:3306/planeacionagil";
+            String url = "jdbc:mysql://localhost:3306/conveniencestore";
             String db_username = "root";
             String db_password = "";
+            
+            usersDAO = new UsersDAO(url, db_username, db_password);
             
             String loginUserRequest = request.getParameter("loginUser");
             String signupUserRequest = request.getParameter("signupUser");
