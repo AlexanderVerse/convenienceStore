@@ -14,7 +14,16 @@
         <title>New order</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <label>Vendor id: ${idVendor}</label>
+        <h2>Orden</h2>
+        <label>Vendor id: ${idVendor}</label><br>
+        <label>Producto id:</label>
+        <select name="productos">
+            <c:forEach var="itemProducto" items="${listaProductos}">
+                <option value="${itemProducto.getIdProduct()}">${itemProducto.getProductName()}</option>
+            </c:forEach>
+        </select><br>
+        <label>Cantidad:</label><input type="text" value="" placeholder="Ingresa la cantidad" /><br>
+        <label>Subtotal:</label>
+        <input type="submit" value="Guardar" />
     </body>
 </html>
