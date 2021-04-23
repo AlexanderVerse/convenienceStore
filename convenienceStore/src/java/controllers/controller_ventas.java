@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Producto;
+import models.Sale;
 import models.Venta;
 
 /**
@@ -72,14 +73,14 @@ public class controller_ventas extends HttpServlet {
     private void getVendorSalesRequest(HttpServletRequest request, HttpServletResponse response) throws 
             SQLException, IOException , ServletException {
         RequestDispatcher dispatcher;
-        List<Venta> listaVentas;
+        List<Sale> listaVentas;
  
         dispatcher = request.getRequestDispatcher("views/ventas.jsp");
         
         System.out.println("Getting sales..");
         System.out.println("IDVENDOR: " + IDVENDOR);
         listaVentas = ventasDAO.getVentas();
-        System.out.println("IDVENDOR: " + IDVENDOR);
+        System.out.println("listaVentas: " + listaVentas);
         request.setAttribute("idVendor",IDVENDOR);
         request.setAttribute("listaVentas",listaVentas);
         dispatcher.forward(request, response);

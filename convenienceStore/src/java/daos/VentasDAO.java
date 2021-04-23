@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import models.Venta;
 import models.Producto;
+import models.Sale;
 
 /**
  *
@@ -28,8 +29,8 @@ public class VentasDAO {
         con = new Conexion(jdbcURL, jdbcUsername, jdbcPassword);
     }
     
-    public List<Venta> getVentas() throws SQLException {
-        List<Venta> listaProductos;
+    public List<Sale> getVentas() throws SQLException {
+        List<Sale> listaProductos;
         String sql;
         Statement statement;
         ResultSet resultSet;
@@ -46,7 +47,7 @@ public class VentasDAO {
             String idSale = resultSet.getString("idSale");
             String idVendor = resultSet.getString("idVendor");
             String saleTotal = resultSet.getString("saleTotal");
-            Venta itemPedido = new Venta(idSale, idVendor, saleTotal);
+            Sale itemPedido = new Sale(idSale, idVendor, saleTotal);
             listaProductos.add(itemPedido);
         }
         System.out.println("Returning ventas to controller");
