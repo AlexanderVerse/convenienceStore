@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-04-2021 a las 14:28:40
--- Versión del servidor: 10.4.18-MariaDB
--- Versión de PHP: 8.0.3
+-- Tiempo de generación: 23-04-2021 a las 19:52:55
+-- Versión del servidor: 10.4.6-MariaDB
+-- Versión de PHP: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -20,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `conveniencestore`
 --
-CREATE DATABASE IF NOT EXISTS `conveniencestore` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-USE `conveniencestore`;
 
 -- --------------------------------------------------------
 
@@ -29,7 +28,6 @@ USE `conveniencestore`;
 -- Estructura de tabla para la tabla `category`
 --
 
-DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `idCategory` int(40) NOT NULL,
   `name` varchar(40) COLLATE utf8mb4_bin NOT NULL
@@ -51,7 +49,6 @@ INSERT INTO `category` (`idCategory`, `name`) VALUES
 -- Estructura de tabla para la tabla `listproduct`
 --
 
-DROP TABLE IF EXISTS `listproduct`;
 CREATE TABLE `listproduct` (
   `idProduct` int(50) NOT NULL,
   `productName` varchar(50) COLLATE utf8mb4_bin NOT NULL,
@@ -81,12 +78,19 @@ INSERT INTO `listproduct` (`idProduct`, `productName`, `trademark`, `stock`, `pr
 -- Estructura de tabla para la tabla `sale`
 --
 
-DROP TABLE IF EXISTS `sale`;
 CREATE TABLE `sale` (
   `idSale` int(11) NOT NULL,
   `idVendor` int(11) NOT NULL,
   `saleTotal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `sale`
+--
+
+INSERT INTO `sale` (`idSale`, `idVendor`, `saleTotal`) VALUES
+(1, 2, 100),
+(2, 2, 95);
 
 -- --------------------------------------------------------
 
@@ -94,7 +98,6 @@ CREATE TABLE `sale` (
 -- Estructura de tabla para la tabla `sale_order`
 --
 
-DROP TABLE IF EXISTS `sale_order`;
 CREATE TABLE `sale_order` (
   `id` int(50) NOT NULL,
   `idSale` int(11) NOT NULL,
@@ -103,13 +106,22 @@ CREATE TABLE `sale_order` (
   `subtotal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+--
+-- Volcado de datos para la tabla `sale_order`
+--
+
+INSERT INTO `sale_order` (`id`, `idSale`, `idProduct`, `quantity`, `subtotal`) VALUES
+(7, 1, 8, 1, 50),
+(8, 1, 5, 1, 50),
+(9, 2, 1, 1, 45),
+(10, 2, 5, 1, 50);
+
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `user`
 --
 
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `idUser` int(30) NOT NULL,
   `username` varchar(50) COLLATE utf8mb4_bin NOT NULL,
@@ -122,7 +134,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`idUser`, `username`, `password`, `userType`) VALUES
-(1, 'Alexander', 'Alexander', 'owner');
+(1, 'Alexander', 'Alexander', 'owner'),
+(2, 'vania', '12345', 'vendor');
 
 --
 -- Índices para tablas volcadas
@@ -182,19 +195,19 @@ ALTER TABLE `listproduct`
 -- AUTO_INCREMENT de la tabla `sale`
 --
 ALTER TABLE `sale`
-  MODIFY `idSale` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idSale` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `sale_order`
 --
 ALTER TABLE `sale_order`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `idUser` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idUser` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
