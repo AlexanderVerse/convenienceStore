@@ -41,10 +41,10 @@ public class controller_pedidos extends HttpServlet {
             String db_password = "";
             String callOrdersControllerRequest;
             
-            productosDAO = new ProductosDAO(url, db_username, db_password);
+            //productosDAO = new ProductosDAO(url, db_username, db_password);
             callOrdersControllerRequest = String.valueOf(request.getAttribute("callOrdersControllerRequest"));
             
-            if(callOrdersControllerRequest != null) loginVendorOrders(request, response);
+            //if(callOrdersControllerRequest != null) loginVendorOrders(request, response);
         }
     }
 
