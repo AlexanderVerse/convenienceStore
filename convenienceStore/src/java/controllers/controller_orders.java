@@ -5,14 +5,20 @@
  */
 package controllers;
 
+import daos.ProductosDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Producto;
 
 /**
  *
@@ -30,6 +36,7 @@ public class controller_orders extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
+    private ProductosDAO productosDAO;
     private String IDVENDOR;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -37,34 +44,41 @@ public class controller_orders extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            String url = "jdbc:mysql://localhost:3306/conveniencestore";
+            String db_username = "root";
+            String db_password = "";
             String callOrdersControllerRequest;
             
+            productosDAO = new ProductosDAO(url, db_username, db_password);
             callOrdersControllerRequest = String.valueOf(request.getAttribute("callOrdersControllerRequest"));
             
             if(callOrdersControllerRequest != null) loginVendorOrders(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(user.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void logHistoriesProject(HttpServletRequest request, HttpServletResponse response) throws 
+    private void loginVendorOrders(HttpServletRequest request, HttpServletResponse response) throws 
             SQLException, IOException , ServletException {
-        IDVENDOR = String.valueOf(request.getAttribute("projectId"));
+        IDVENDOR = String.valueOf(request.getAttribute("idVendor"));
         
-        System.out.println("Logging histories project..");
-        System.out.println("PROJECTID: " + IDVENDOR);
+        System.out.println("Logging verdor orders..");
+        System.out.println("IDVENDOR: " + IDVENDOR);
         newOrderRequest(request, response);
     }
     
     private void newOrderRequest(HttpServletRequest request, HttpServletResponse response) throws 
             SQLException, IOException , ServletException {
         RequestDispatcher dispatcher;
-        
-        IDVENDOR = String.valueOf(request.getAttribute("projectId"));
-        
-        System.out.println("Logging histories project..");
-        System.out.println("IDVENDOR: " + IDVENDOR);
+        List<Producto> listaProductos;
+ 
         dispatcher = request.getRequestDispatcher("views/ordenes.jsp");
+        
+        System.out.println("Getting products..");
+        System.out.println("IDVENDOR: " + IDVENDOR);
+        listaProductos = productosDAO.getProductos();
         request.setAttribute("idVendor",IDVENDOR);
-        //request.setAttribute("userId", loginUser.getId());
+        request.setAttribute("listaProductos",listaProductos);
         dispatcher.forward(request, response);
     }
     
