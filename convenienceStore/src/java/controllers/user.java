@@ -78,6 +78,7 @@ public class user extends HttpServlet {
         } else {
             System.out.println("Login user vendor found!");
             dispatcher = request.getRequestDispatcher("controller_pedidos");
+            request.setAttribute("callPedidosControllerRequest", "Calling orders controller..");
             request.setAttribute("callOrdersControllerRequest", "Calling orders controller..");
             request.setAttribute("idVendor", loginUser.getId());
             dispatcher.forward(request, response);
